@@ -3,148 +3,157 @@
 #include <locale.h>
 #include <conio.h>
 #include <ctime>
-
-class mytime
+#include <cmath>
+class MyTime
 {
 private:
 	int hour;
 	int min;
 	int sec;
 public:
-	mytime()
+	MyTime()
 	{
 		hour = 12;
 		min = 38;
 		sec = 34;
 	}
-	void Vivod(mytime T)//Вывод времени
+	MyTime(int h, int m, int s)
+	{
+		hour = h;
+		min = m;
+		sec = s;
+	}
+	void Print()//Вывод времени
 	{
 		printf("%d:%d:%d\n", hour, min, sec);
 	}
-	void Set_time(mytime T)//Установка времени
+	int Scan_Time(int &h, int &m, int &s)//Установка времени
 	{
 		printf("Введите последовательно часы, минуты и секунды\n");
-		scanf_s("%d", &hour);
-		scanf_s("%d", &min);
-		scanf_s("%d", &sec);
+		scanf_s("%d%d%d", &h,&m,&s);
+		return h, m, s;
 	}
-	mytime Time_difference( mytime T1, int Time0=45514)//Вычисление разницы
+	void Set_Time(int (&Time)[3])//Установка времени
 	{
-		int Time1=0,TimeR=0;
-		mytime Tr;		
-		//Перевод в секунды Установленного
-		Time1 = (T1.hour * 3600) + (T1.min * 60) + T1.sec;
-		if (Time0>Time1)
-		{
-			TimeR = Time0 - Time1;
-		}
-		else if (Time0 < Time1)
-		{
-			TimeR = Time1 - Time0;
-		}
-		Tr.sec = TimeR % 60;//Осаток от деления на 60 - секунды разницы
-		Tr.hour = TimeR / 3600;//Целая часть от деления на 3600 - часы разницы
-		Tr.min = (TimeR - (Tr.hour*3600) - (Tr.sec)) / 60;//Минуты
-		
-		return Tr;
+		hour = Time[0];
+		min = Time[1];
+		sec = Time[2];
 	}
-	mytime Time_shift(mytime Tsdv, mytime T1, int prov1, int prov2, int Time0 = 45514)//Сдвиг времени
+	int Time_difference(int(&Time)[3])//Вычисление разницы
 	{
-		int Time1 = 0, TimeR = 0, Timesdv=0;
-		mytime Tr;
-		Timesdv = (Tsdv.hour * 3600) + (Tsdv.min * 60) + Tsdv.sec;
-		Time1 = (T1.hour * 3600) + (T1.min * 60) + T1.sec;
-		if (prov1 == 1)//Сдвиг в большую сторону
-		{
-			if (prov2 == 1)
-			{
-				TimeR = Time0 + Timesdv;
-			}
-			if (prov2 == 2)
-			{
-				TimeR = Time1 + Timesdv;
-			}
-		}
-		if (prov1 == 2)
-		{
-			if (prov2 == 1)
-			{
-				TimeR = Time0 - Timesdv;
-			}
-			if (prov2 == 2)
-			{
-				TimeR = Time1 - Timesdv;
-			}
-		}
-		while (TimeR < 0)
-		{
-			TimeR =TimeR*(-1);	
-			TimeR = 86399 - TimeR;
-			Tr.sec = TimeR % 60;//Осаток от деления на 60 - секунды разницы
-			Tr.hour = TimeR / 3600;//Целая часть от деления на 3600 - часы разницы
-			Tr.min = (TimeR - (Tr.hour * 3600) - (Tr.sec)) / 60;//Минуты					
-		}
-		while(TimeR > 86399)
-		{
-			TimeR = TimeR - 86300;
-			Tr.sec = TimeR % 60;//Осаток от деления на 60 - секунды разницы
-		    Tr.hour = TimeR / 3600;//Целая часть от деления на 3600 - часы разницы
-		    Tr.min = (TimeR - (Tr.hour * 3600) - (Tr.sec)) / 60;//Минуты
-		}
-		if ((TimeR >= 0) && (TimeR <= 86399))
-		{
-			Tr.sec = TimeR % 60;//Осаток от деления на 60 - секунды разницы
-			Tr.hour = TimeR / 3600;//Целая часть от деления на 3600 - часы разницы
-			Tr.min = (TimeR - (Tr.hour * 3600) - (Tr.sec)) / 60;//Минуты
-		}
-		return Tr;
+		Time[0] = abs(Time[0] - hour);
+		Time[1] = abs(Time[1] - min);
+		Time[2] = abs(Time[2] - sec);
+		return Time[3];
 	}
-	mytime& operator=(const mytime &T)
+	int Time_shift1(int(&Time)[3])//Сдвиг времени в большую сторону
+	{
+		int h = Time[0], m = Time[1], s = Time[2];
+		h = h + hour;
+		m = m + min;
+		s = s + sec;
+		if (s > 59)
+		{
+			m = m + (s / 60);
+			s = s - 59;
+			if (m > 59)
+			{
+				h = h + (m / 60);
+				m = m - 59;
+			}
+		}
+		Time[0] = h;
+		Time[1] = m;
+		Time[2] = s;
+		return Time[3];
+	}
+	int Time_shift2(int(&Time)[3])//Сдвиг времени
+	{
+		int h = Time[0], m = Time[1], s = Time[2];
+		h = hour-h;
+		m = min-m;
+		s =sec-s;
+		if (s < 0)
+		{
+			m = m - (s / 60);
+			s = 59 - s;
+			if (m < 0)
+			{
+				h = h - (m / 60);
+				m = 59 - m;
+			}
+		}
+		Time[0] = h;
+		Time[1] = m;
+		Time[2] = s;
+		return Time[3];
+	}
+	MyTime& operator=(const MyTime &T)
 	{
 		hour = T.hour;
 		min = T.min;
 		sec = T.sec;
 		return *this;
 	}
-
 };
 
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 	int exit=0, prov1=0,prov2=0;
-	int v = -1;
-	mytime T,T1,Tres,Tsdv;
+	int v = -1;	
+	MyTime T, T1;
+	int Time[3] = { 0 };
+	int h = Time[0];
+	int m = Time[1];
+	int s = Time[2];
 	while (exit == 0)
 	{
 		printf("Что сделать:\n 1)Установить время;\n 2)Узнать время;\n 3)Вычислить разницу;\n 4)Сдвинуть время;\n 5)Закончить работу;\n");
 		scanf_s("%d", &v);
 		if (v == 1) {
 			printf("Установка времени\n");
-			T1.Set_time(T1);
+			T.Scan_Time(Time[0],Time[1],Time[2]);
 			printf("Введенное вами время\n");
-			T1.Vivod(T1);
+			T.Set_Time(Time);
+			T.Print();
 		}
 		if (v == 2) {
 			printf("Узнать время\nСейчас\n");
-			T1.Vivod(T1);
+			T.Print();
 		}
 		if (v == 3) {
 			printf("Узнать разницу во времени\n");
-			Tres = T1.Time_difference(T1);
-			Tres.Vivod(Tres);
+			printf("Задайт время, разницу с которым нужно рассчитать\n");
+			T1.Scan_Time(Time[0], Time[1], Time[2]);
+			printf("Введенное вами время\n");
+			T1.Set_Time(Time);
+			T1.Print();
+			T1.Time_difference(Time);
+			printf("Разница\n");
+			T1.Print();
 		}
 		if (v == 4)
 		{
 			printf("Задайте сдвиг в часах минутах и секундах\n");
-			Tsdv.Set_time(Tsdv);
+			T1.Scan_Time(Time[0], Time[1], Time[2]);
+			printf("Введенное вами сдвиг\n");
+			T1.Set_Time(Time);
+			T1.Print();
 			printf("В большую(1) или меньшую(2) сторону?\n");
 			scanf_s("%d", &prov1);
-			printf("Задать сдвиг для установленного времени(1) или для заданного позже(2)\n");
-			scanf_s("%d", &prov2);
-			Tres = Tsdv.Time_shift(Tsdv, T1, prov1, prov2);
-			printf("Время с учетом сдвига\n");
-			Tres.Vivod(Tres);
+			if (prov1 == 1)
+			{
+				T1.Time_shift1(Time);
+				printf("Время со сдвигом\n");
+				T1.Print();
+			}
+			else if (prov1 == 2)
+			{
+				T1.Time_shift2(Time);
+				printf("Время со сдвигом\n");
+				T1.Print();
+			}			
 		}
 		if (v == 5)
 		{
