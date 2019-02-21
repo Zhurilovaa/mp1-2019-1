@@ -33,12 +33,16 @@ public:
 		min = m;
 		sec = s;
 	}
-	int Time_difference(int h, int m, int s)//Вычисление разницы
+	MyTime Time_difference(MyTime T1)//Вычисление разницы
 	{
+		int h = T1.hour, m = T1.min, s = T1.sec;
 		h = abs(h - hour);
 		m= abs(m - min);
 		s = abs(s - sec);
-		return h,m,s;
+		T1.hour = h;
+		T1.min = m;
+		T1.sec = s;
+		return T1;
 	}
 	MyTime Time_shiftMore(MyTime T1)//Сдвиг времени в большую сторону
 	{
@@ -128,7 +132,7 @@ int main()
 			printf("Введенное вами время\n");
 			T1.Set_Time(h, m, s);
 			T1.Print();
-			T1.Time_difference(h, m, s);
+			T1.Time_difference(T1);
 			printf("Разница\n");
 			T1.Print();
 		}
