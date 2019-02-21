@@ -26,29 +26,22 @@ public:
 	void Print()//Вывод времени
 	{
 		printf("%d:%d:%d\n", hour, min, sec);
-	}
-	int Scan_Time(int &h, int &m, int &s)//Установка времени
+	}	
+	void Set_Time(int h, int m, int s)//Установка времени
 	{
-		printf("Введите последовательно часы, минуты и секунды\n");
-		scanf_s("%d%d%d", &h,&m,&s);
-		return h, m, s;
+		hour =h;
+		min = m;
+		sec = s;
 	}
-	void Set_Time(int (&Time)[3])//Установка времени
+	int Time_difference(int h, int m, int s)//Вычисление разницы
 	{
-		hour = Time[0];
-		min = Time[1];
-		sec = Time[2];
+		h = abs(h - hour);
+		m= abs(m - min);
+		s = abs(s - sec);
+		return h,m,s;
 	}
-	int Time_difference(int(&Time)[3])//Вычисление разницы
+	int Time_shiftMore(int h, int m, int s)//Сдвиг времени в большую сторону
 	{
-		Time[0] = abs(Time[0] - hour);
-		Time[1] = abs(Time[1] - min);
-		Time[2] = abs(Time[2] - sec);
-		return Time[3];
-	}
-	int Time_shift1(int(&Time)[3])//Сдвиг времени в большую сторону
-	{
-		int h = Time[0], m = Time[1], s = Time[2];
 		h = h + hour;
 		m = m + min;
 		s = s + sec;
@@ -62,14 +55,10 @@ public:
 				m = m - 59;
 			}
 		}
-		Time[0] = h;
-		Time[1] = m;
-		Time[2] = s;
-		return Time[3];
+		return h,m,s;
 	}
-	int Time_shift2(int(&Time)[3])//Сдвиг времени
+	int Time_shiftLess(int h, int m, int s)//Сдвиг времени
 	{
-		int h = Time[0], m = Time[1], s = Time[2];
 		h = hour-h;
 		m = min-m;
 		s =sec-s;
@@ -83,10 +72,7 @@ public:
 				m = 59 - m;
 			}
 		}
-		Time[0] = h;
-		Time[1] = m;
-		Time[2] = s;
-		return Time[3];
+		return h,m,s;
 	}
 	MyTime& operator=(const MyTime &T)
 	{
@@ -113,9 +99,10 @@ int main()
 		scanf_s("%d", &v);
 		if (v == 1) {
 			printf("Установка времени\n");
-			T.Scan_Time(Time[0],Time[1],Time[2]);
+			printf("Введите последовательно часы, минуты и секунды\n");
+			scanf_s("%d%d%d", &h, &m, &s);
 			printf("Введенное вами время\n");
-			T.Set_Time(Time);
+			T.Set_Time(h,m,s);
 			T.Print();
 		}
 		if (v == 2) {
@@ -125,32 +112,34 @@ int main()
 		if (v == 3) {
 			printf("Узнать разницу во времени\n");
 			printf("Задайт время, разницу с которым нужно рассчитать\n");
-			T1.Scan_Time(Time[0], Time[1], Time[2]);
+			printf("Введите последовательно часы, минуты и секунды\n");
+			scanf_s("%d%d%d", &h, &m, &s);
 			printf("Введенное вами время\n");
-			T1.Set_Time(Time);
+			T1.Set_Time(h, m, s);
 			T1.Print();
-			T1.Time_difference(Time);
+			T1.Time_difference(h, m, s);
 			printf("Разница\n");
 			T1.Print();
 		}
 		if (v == 4)
 		{
 			printf("Задайте сдвиг в часах минутах и секундах\n");
-			T1.Scan_Time(Time[0], Time[1], Time[2]);
+			printf("Введите последовательно часы, минуты и секунды\n");
+			scanf_s("%d%d%d", &h, &m, &s);
 			printf("Введенное вами сдвиг\n");
-			T1.Set_Time(Time);
+			T1.Set_Time(h, m, s);
 			T1.Print();
 			printf("В большую(1) или меньшую(2) сторону?\n");
 			scanf_s("%d", &prov1);
 			if (prov1 == 1)
 			{
-				T1.Time_shift1(Time);
+				T1.Time_shiftMore(h, m, s);
 				printf("Время со сдвигом\n");
 				T1.Print();
 			}
 			else if (prov1 == 2)
 			{
-				T1.Time_shift2(Time);
+				T1.Time_shiftLess(h, m, s);
 				printf("Время со сдвигом\n");
 				T1.Print();
 			}			
