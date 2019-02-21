@@ -40,8 +40,9 @@ public:
 		s = abs(s - sec);
 		return h,m,s;
 	}
-	int Time_shiftMore(int h, int m, int s)//Сдвиг времени в большую сторону
+	MyTime Time_shiftMore(MyTime T1)//Сдвиг времени в большую сторону
 	{
+		int h = T1.hour, m = T1.min, s = T1.sec;
 		h = h + hour;
 		m = m + min;
 		s = s + sec;
@@ -55,10 +56,17 @@ public:
 				m = m - 59;
 			}
 		}
-		return h,m,s;
+		T1.hour = h;
+		T1.min = m;
+		T1.sec = s;
+		return T1;
 	}
-	int Time_shiftLess(int h, int m, int s)//Сдвиг времени
+	MyTime Time_shiftLess(MyTime T1)//Сдвиг времени
 	{
+		int h = T1.hour, m = T1.min, s = T1.sec;
+		h = h + hour;
+		m = m + min;
+		s = s + sec;
 		h = hour-h;
 		m = min-m;
 		s =sec-s;
@@ -72,7 +80,10 @@ public:
 				m = 59 - m;
 			}
 		}
-		return h,m,s;
+		T1.hour = h;
+		T1.min = m;
+		T1.sec = s;
+		return T1;
 	}
 	MyTime& operator=(const MyTime &T)
 	{
@@ -133,13 +144,13 @@ int main()
 			scanf_s("%d", &prov1);
 			if (prov1 == 1)
 			{
-				T1.Time_shiftMore(h, m, s);
+				T1.Time_shiftMore(T1);
 				printf("Время со сдвигом\n");
 				T1.Print();
 			}
 			else if (prov1 == 2)
 			{
-				T1.Time_shiftLess(h, m, s);
+				T1.Time_shiftLess(T1);
 				printf("Время со сдвигом\n");
 				T1.Print();
 			}			
