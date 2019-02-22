@@ -36,9 +36,23 @@ public:
 	MyTime Time_difference(MyTime T1)//Вычисление разницы
 	{
 		int h = T1.hour, m = T1.min, s = T1.sec;
-		h = abs(h - hour);
-		m= abs(m - min);
-		s = abs(s - sec);
+		h = h - hour;
+		m= m - min;
+		s = s - sec;
+		if (s < 0)
+		{
+			m = m - (s / 60);
+			s = (s*(-1)) % 60;
+		}
+		if (m < 0)
+		{
+			h = h - (m / 60);
+			m = (m*(-1)) % 60;
+		}
+		if (h < 0)
+		{
+			h = h * (-1) % 24;
+		}
 		T1.hour = h;
 		T1.min = m;
 		T1.sec = s;
@@ -53,12 +67,16 @@ public:
 		if (s > 59)
 		{
 			m = m + (s / 60);
-			s = s - 59;
-			if (m > 59)
-			{
-				h = h + (m / 60);
-				m = m - 59;
-			}
+			s = s % 60;
+		}
+		if (m > 59)
+		{
+			h = h + (m / 60);
+			m = m % 60;
+		}
+		if (h > 23)
+		{
+			h = h % 24;
 		}
 		T1.hour = h;
 		T1.min = m;
@@ -68,21 +86,22 @@ public:
 	MyTime Time_shiftLess(MyTime T1)//Сдвиг времени
 	{
 		int h = T1.hour, m = T1.min, s = T1.sec;
-		h = h + hour;
-		m = m + min;
-		s = s + sec;
 		h = hour-h;
 		m = min-m;
 		s =sec-s;
 		if (s < 0)
 		{
 			m = m - (s / 60);
-			s = 59 - s;
-			if (m < 0)
-			{
-				h = h - (m / 60);
-				m = 59 - m;
-			}
+			s = (s*(-1)) % 60;
+		}
+		if (m < 0)
+		{
+			h = h - (m / 60);
+			m = (m*(-1)) % 60;
+		}
+		if (h < 0)
+		{
+			h = h * (-1) % 24;
 		}
 		T1.hour = h;
 		T1.min = m;
@@ -103,7 +122,7 @@ int main()
 	setlocale(LC_ALL, "Rus");
 	int exit=0, prov1=0,prov2=0;
 	int v = -1;	
-	MyTime T, T1;
+	MyTime T, T1, T2;
 	int Time[3] = { 0 };
 	int h = Time[0];
 	int m = Time[1];
@@ -132,9 +151,9 @@ int main()
 			printf("Введенное вами время\n");
 			T1.Set_Time(h, m, s);
 			T1.Print();
-			T1.Time_difference(T1);
+			T2 = T.Time_difference(T1);
 			printf("Разница\n");
-			T1.Print();
+			T2.Print();
 		}
 		if (v == 4)
 		{
@@ -148,15 +167,15 @@ int main()
 			scanf_s("%d", &prov1);
 			if (prov1 == 1)
 			{
-				T1.Time_shiftMore(T1);
+				T2 = T.Time_shiftMore(T1);
 				printf("Время со сдвигом\n");
-				T1.Print();
+				T2.Print();
 			}
 			else if (prov1 == 2)
 			{
-				T1.Time_shiftLess(T1);
+				T2 = T.Time_shiftLess(T1);
 				printf("Время со сдвигом\n");
-				T1.Print();
+				T2.Print();
 			}			
 		}
 		if (v == 5)
