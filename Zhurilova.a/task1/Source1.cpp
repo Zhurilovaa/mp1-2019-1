@@ -1,24 +1,31 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <locale.h>
 #include<stdio.h>
-
+#include <iostream>
 class Matrix
 {
 private:
 	int n;
 	int matrix[8][8];
+	bool Diagonal;
 public:
-	Matrix(int m[][],int n = 2)//!!!!!!!!!!!!
+	Matrix()//Конструктор
 	{
+		n = 8;
+		Diagonal = false;
 		for (int i = 0; i < n; i++)
 		{
 			for (int j = 0; j < n; j++)
 			{
-				matrix[i][j] = m[i][j];
+				matrix[i][j] = rand() % 1000 + 0;
 			}
 		}
 	}
-	void PrintMatrix()
+	Matrix(int _n)
+	{
+		n = _n;
+	}
+	void PrintMatrix()//Вывод матрицы
 	{
 		for (int i = 0; i < n; i++)
 		{
@@ -26,42 +33,41 @@ public:
 			{
 				printf("%d", matrix[i][j]);
 			}
-			printf("");//!!!!!!!!!!!!!!!!!
+			printf("\n");
 		}
 	}
-	void Set_Size(int _n)
+	void Set_Size(int _n)//Установка размера матрицы
 	{
-		if ((n >= 2) && (n <= 8))
+		if ((_n > 1) && (_n < 9))
 		{
 			n = _n;
 		}
-		else throw n; //"Неверно задан размер"
+		else if ((_n < 2) || (n > 8)) {
+			printf("Неверно задан размер\n");
+		}			 
 	}	
-public:
-	void Print_Size() const
+	void Print_Size() const//Вывод размера матрицы
 	{
 		printf("Размер матрицы %d", n);
 	}
-	void Set_element(int a, int i, int j)
+	void Set_element(int a, int i, int j)//Установка элемента
 	{
-		float mistakeind;
 		if ((i >= 0) && (i < n) && (j >= 0) && (j < n))
 		{
 			matrix[i][j] = a;
 		}
-		else printf("Нет элемента с таким индексом в матрице");
+		else printf("Нет элемента с таким индексом в матрице\n");
 	}
-	void Print_element(int i, int j) const
+	void Print_element(int i, int j) const//Вывод элемента
 	{
 		if ((i >= 0) && (i < n) && (j >= 0) && (j < n))
 		{
 			printf("Элемент под таким индексом %d", matrix[i][j]);
 		}
-		else printf("Нет элемента под таким индексом");
+		else printf("Нет элемента под таким индексом\n");
 	}
-	bool Diagonal_matrix()
+	void Diagonal_matrix()//Проверка на диагональное преобладание
 	{
-		bool diagonal=false;
 		int i, j, sum=0;
 		for (i = 0;i < n; i++)
 		{
@@ -71,12 +77,16 @@ public:
 			}
 			if (matrix[i][i] >= sum)
 			{
-				diagonal= true;
+				Diagonal= true;
 			}			
 		}
-		return diagonal;
+		if (Diagonal == true)
+		{
+			printf("Матрица облидает диагональным преобладанием\n");
+		}
+		else printf("Матрица не обладет диагональным преобладанием\n");
 	}
-	Matrix Add(Matrix _m)
+	Matrix Add(Matrix _m)//Сложение матриц
 	{
 		if (n == _m.n)
 		{
@@ -88,10 +98,10 @@ public:
 				}
 			}
 		}
-		else printf("У матриц не совпадает размер");
+		else printf("У матриц не совпадает размер\n");
 		return _m;
 	}
-	Matrix& operator=(const Matrix &m)
+	Matrix& operator=(const Matrix &m)//Оператор присваивания
 	{
 		n = m.n;
 		for (int i = 0; i < n; i++)
@@ -103,10 +113,88 @@ public:
 		}
 		return *this;
 	}
+	~Matrix()//Деструктор
+	{
+		for (int i = 0; i < n; i++)
+		{
+			delete matrix[i];			
+		}
+		delete[] matrix;
+	}
 };
 void main()
 {
 	setlocale(LC_ALL, "Rus");
-
-
+	Matrix M1, M2, M3;
+	int elem[8][8] = {1};
+	int N, N1;
+	int exit=0,v = 0,i,j;
+	while (exit == 0)
+	{
+		printf("Выберите действие:\n");
+		printf("1-Задать размер матрицы\n2-Узнать размер матрицы\n3-Задать элемент матрицы по его индексам\n4-Узнать элемент матрицы по его индексам\n5-Проверить, обладает ли матрица диагональным преобладанием\n6-Вычислить сумму двух матриц одного размера\n");
+		scanf_s("%d", &v);
+		while ((v < 1) || (v > 6))
+		{
+			printf("Нет действия под таким номером!\n");
+			scanf_s("%d", &v);
+		}		
+		if (v == 1) {
+			printf("Введите размер матрицы nхn, n от 2 до 8 включительно\n");
+			scanf_s("%d", &N);
+			while ((N < 2) || (N > 8))
+			{
+				printf("Неправильно введен размер!\n");
+				scanf_s("%d", &N);
+			}
+			M1.Set_Size(N);
+		}
+		if (v == 2) {
+			printf("Размер матрицы\n");
+			M1.Print_Size();
+		}
+		if (v == 3) {
+			printf("Введите номер строки и столбца нужного элемента\n");
+			scanf_s("%d %d", &i, &j);
+			while ((i < 0) || (i > 7) || (j < 0) || (j > 7))
+			{
+				printf("Нет элемента с таким индексом\n");
+				scanf_s("%d %d", &i, &j);
+			}
+			printf("Введите значение элемента матрицы(целое число)\n");
+			scanf_s("%d", &elem[i][j]);
+			M1.Set_element(elem[i][j], i, j);
+		}
+		if (v == 4) {
+			printf("Введите номер строки и столбца нужного элемента\n");
+			scanf_s("%d %d", &i, &j);
+			while ((i < 0) || (i > 7) || (j < 0) || (j > 7))
+			{
+				printf("Нет элемента с таким индексом\n");
+				scanf_s("%d %d", &i, &j);
+			}
+			M1.Print_element(i, j);
+		}
+		if (v == 5) {
+			printf("Обладает ли матрица диагональным преобладанием?\n");
+			M1.Diagonal_matrix();
+		}
+		if(v==6){
+			printf("Сложение матриц\n");
+			printf("Установите размеры 1 и 2 матриц\n");
+			scanf_s("%d", &N);
+			M1.Set_Size(N);
+			M2.Set_Size(N);
+			printf("Первая матрица\n");
+			M1.PrintMatrix();
+			printf("Вторая матрица\n");
+			M2.PrintMatrix();
+			printf("Их сумма\n");
+			M3.Set_Size(N);
+			M3 = M1.Add(M2);
+			M3.PrintMatrix();
+		}
+		printf("\nХотите выйти из программы?\n");
+		scanf_s("%d", &exit);
+	}
 }
