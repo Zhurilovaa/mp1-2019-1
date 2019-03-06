@@ -46,7 +46,7 @@ public:
 			printf("Неверно задан размер\n");
 		}
 	}
-	int GetSize() const//Узнать размер матрицы
+	int Get_Size() const//Узнать размер матрицы
 	{
 		return n;
 	}
@@ -78,7 +78,7 @@ public:
 		}		
 		return Diagonal;
 	}
-	Matrix Add(const Matrix &_m)//Сложение матриц
+	Matrix Matrix_Add(const Matrix &_m)//Сложение матриц
 	{
 		if (n == _m.n)
 		{
@@ -135,7 +135,7 @@ void main()
 			M1.Set_Size(N);
 		}
 		if (v == 2) {			
-			N=M1.GetSize();
+			N=M1.Get_Size();
 			printf("Размер матрицы %d\n", N);
 		}
 		if (v == 3) {
@@ -182,7 +182,7 @@ void main()
 			M2.PrintMatrix();
 			printf("Их сумма\n");
 			M3.Set_Size(N);
-			M3 = M1.Add(M2);
+			M3 = M1.Matrix_Add(M2);
 			M3.PrintMatrix();
 		}
 		printf("\nХотите выйти из программы?\n");
