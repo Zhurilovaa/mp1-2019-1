@@ -46,10 +46,9 @@ public:
 			printf("Неверно задан размер\n");
 		}
 	}
-	int Print_Size(int &N)//Узнать размер матрицы
+	int GetSize() const//Узнать размер матрицы
 	{
-		N = n;
-		return N;
+		return n;
 	}
 	void Set_element(int a, int i, int j)//Установка элемента
 	{
@@ -59,12 +58,11 @@ public:
 		}
 		else printf("Нет элемента с таким индексом в матрице\n");
 	}
-	int Print_element(int &i, int &j, int &elem)//Узнать элемент матрицы по индексам
+	int Get_element(int &i, int &j)//Узнать элемент матрицы по индексам
 	{
-		elem = matrix[i][j];
-		return elem;
+		return matrix[i][j];
 	}
-	bool Diagonal_matrix(bool &diag)//Проверка на диагональное преобладание
+	bool Diagonal_matrix()//Проверка на диагональное преобладание
 	{
 		int i, j, sum = 0;
 		for (i = 0; i < n; i++)
@@ -77,9 +75,8 @@ public:
 			{
 				Diagonal = true;
 			}
-		}
-		diag = Diagonal;
-		return diag;
+		}		
+		return Diagonal;
 	}
 	Matrix Add(const Matrix &_m)//Сложение матриц
 	{
@@ -138,7 +135,7 @@ void main()
 			M1.Set_Size(N);
 		}
 		if (v == 2) {			
-			M1.Print_Size(N);
+			N=M1.GetSize();
 			printf("Размер матрицы %d\n", N);
 		}
 		if (v == 3) {
@@ -161,12 +158,12 @@ void main()
 				printf("Нет элемента с таким индексом\n");
 				scanf_s("%d %d", &i, &j);
 			}
-			M1.Print_element(i, j, elem);
+			elem=M1.Get_element(i, j);
 			printf("Элемент под таким индексом %d",elem);
 		}
 		if (v == 5) {
 			printf("Обладает ли матрица диагональным преобладанием?\n");
-			M1.Diagonal_matrix(diag);
+			diag=M1.Diagonal_matrix();
 			if (diag == true)
 			{
 				printf("Матрица облидает диагональным преобладанием\n");
