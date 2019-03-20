@@ -7,7 +7,7 @@ class Integral
 {
 private:
 	double(*function)(double);//Указатель на используемую математическую функцию
-	double leftBorder, rightBourder;//Границы отрезка вычисления
+	double leftBorder, rightBorder;//Границы отрезка вычисления
 	int n;//Количество частей отрезка(равных)
 	double result;//Результат вычисления интеграла
 public:
@@ -15,7 +15,7 @@ public:
 	{
 		function = exp;
 		leftBorder = 0;
-		rightBourder = 1;
+		rightBorder = 1;
 		n = 1000;
 		result = 0;
 	}
@@ -23,36 +23,36 @@ public:
 	{
 		function = _function;
 		leftBorder = _left;
-		rightBourder = _right;
+		rightBorder = _right;
 		n = _n;
 		result = 0;
 	}
-	void SetFunction(int i, double(*_function)(double))//Установить функцию
+	void SetFunction(double(*_function)(double))//Установить функцию
 	{
 		function = _function;
 	}
 	void SetBorders(double _left, double _right)//Установка границ интегрирования
 	{
 		leftBorder = _left;
-		rightBourder = _right;
+		rightBorder = _right;
 	}
 	void SetNumberOfSegments(int _n)//Установка количества отрезков интегрирования
 	{
 		n = _n;
 	}
-	double GetBourdersleft()//Узнать левую границу
+	double GetLeftBorder()//Узнать левую границу
 	{
 		return leftBorder;
 	}
-	double GetBourdersright()//Узнать правую границу
+	double GetRightBorder()//Узнать правую границу
 	{
-		return rightBourder;
+		return rightBorder;
 	}
-	double LeftRectangle()//Метод левых прямоугольников
+	double CalculateByLeftRectangle()//Метод левых прямоугольников
 	{
 		double h, left_i;
 		int i;
-		h = (rightBourder - leftBorder) / n;//Длина каждого отрезка отрезка
+		h = (rightBorder - leftBorder) / n;//Длина каждого отрезка отрезка
 		left_i = leftBorder;//Левая граница i отрезка
 		for (i = 0; i < n; i++)
 		{
@@ -62,11 +62,11 @@ public:
 		result = result * h;
 		return result;
 	}
-	double	RightRectangle()//Метод правых прямоугольников
+	double	CalculateByRightRectangle()//Метод правых прямоугольников
 	{
 		double h, right_i;
 		int i;
-		h=(rightBourder-leftBorder) / n;//Длина каждого отрезка отрезка
+		h=(rightBorder -leftBorder) / n;//Длина каждого отрезка отрезка
 		right_i = leftBorder + h;//Левая граница i отрезка
 		for (i = 1; i <= n; i++)
 		{
@@ -76,11 +76,11 @@ public:
 		result = result * h;
 		return result;
 	}
-	double	MiddleRectangle()
+	double	CalculateByMiddleRectangle()
 	{
 		double h, middle_i;
 		int i;
-		h= (rightBourder - leftBorder) / n;//Длина каждого отрезка отрезка
+		h= (rightBorder - leftBorder) / n;//Длина каждого отрезка отрезка
 		middle_i = leftBorder + (h / 2);
 		for (i = 1; i <= n; i++)
 		{
@@ -94,7 +94,7 @@ public:
 	{
 		function = _A.function;
 		leftBorder = _A.leftBorder;
-		rightBourder = _A.rightBourder;
+		rightBorder = _A.rightBorder;
 		n = _A.n;
 		result = _A.result;
 	}
@@ -128,7 +128,7 @@ void main()
 				printf("Нет функции под таким номером!\n");
 				scanf_s("%d", &funcvibor);
 			}
-			A.SetFunction(funcvibor,_function[funcvibor]);
+			A.SetFunction(_function[funcvibor]);
 		}
 		if (vibor == 2)
 		{
@@ -144,8 +144,8 @@ void main()
 		if (vibor == 3)
 		{
 			printf("Узнать пределы интегрирования\n");
-			left = A.GetBourdersleft();
-			right = A.GetBourdersright();
+			left = A.GetLeftBorder();
+			right = A.GetRightBorder();
 			printf("[%lf,%lf]\n", right, left);
 		}
 		if (vibor == 4)
@@ -174,22 +174,22 @@ void main()
 			if (integmethod == 1)
 			{
 				printf("Вычисление интеграла методом левых прямоугольников\n");
-				_result = A.LeftRectangle();
+				_result = A.CalculateByLeftRectangle();
 			}
 			if (integmethod == 2)
 			{
 				printf("Вычисление интеграла методом правых прямоугольников\n");
-				_result = A.RightRectangle();
+				_result = A.CalculateByRightRectangle();
 			}
 			if (integmethod == 3)
 			{
 				printf("Вычисление интеграла методом средних прямоугольников\n");
-				_result = A.MiddleRectangle();
+				_result = A.CalculateByMiddleRectangle();
 			}
 		}
 		if (vibor == 7)
 		{
-			_result = A.MiddleRectangle();
+			_result = A.CalculateByMiddleRectangle();
 			printf("Результат вычислений %lf\n", _result);
 		}
 		printf("Желаете выйти? Если да-введите любое число, если нет - введите 0\n");
