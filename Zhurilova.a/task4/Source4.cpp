@@ -400,10 +400,10 @@ void main()
 			cin >> stringC;
 			cout << endl;
 			printf("Введите дату выхода в прокат\n");
-			scanf("%d %d %d\n", &day, &month, &year);
+			scanf("%d %d %d", &day, &month, &year);
 			releasedate.SetData(day, month, year);
 			printf("Введите мировые сборы\n");
-			scanf("%lf\n", &filmfees);
+			scanf("%lf", &filmfees);
 			film1.SetFilm(stringName, stringR, stringS, stringC, filmfees, releasedate);
 			MyFilms.AppendFilm(film1);
 			MyFilms.WriteToFile();
@@ -427,10 +427,10 @@ void main()
 			cin >> stringC;
 			cout << endl;
 			printf("Введите дату выхода в прокат\n");
-			scanf("%d %d %d\n", &day, &month, &year);
+			scanf("%d %d %d", &day, &month, &year);
 			releasedate.SetData(day, month, year);
 			printf("Введите мировые сборы\n");
-			scanf("%lf\n", &filmfees);
+			scanf("%lf", &filmfees);
 			stringName=film1.GetName();
 			film1.SetFilm(stringName, stringR, stringS, stringC, filmfees, releasedate);
 			MyFilms.ChangeData(film1,ind);
@@ -443,7 +443,7 @@ void main()
 			cin >> stringName;
 			cout << endl;
 			printf("Введите год выхода в прокат\n");
-			scanf("%d %d %d\n", &day, &month, &year);
+			scanf("%d %d %d", &day, &month, &year);
 			releasedate.SetData(day, month, year);
 			ind=MyFilms.FindFilm(stringName, releasedate);
 			film2 = MyFilms.GetFilm(ind);
@@ -485,7 +485,7 @@ void main()
 		if (vibor == 5)//Выдать все фильмы, вышедшие в прокат в выбранном году
 		{
 			printf("Введите год\n");
-			scanf("%d %d %d\n", &day, &month, &year);
+			scanf("%d %d %d", &day, &month, &year);
 			releasedate.SetData(day, month, year);
 			MyFilmsD.FindData(MyFilms, releasedate);
 			size_t n = MyFilmsD.GetSize();
@@ -510,14 +510,14 @@ void main()
 		{
 			printf("Введите заданное число фильмов\n");
 			int z1;
-			scanf("%d\n", &z1);
+			scanf("%d", &z1);
 			sizefilms = z1;
 			N = MyFilms.GetSize();
 			while ((sizefilms < 1) || (sizefilms > N))
 			{
 				printf("В Фильмотеке нет столько фильмов!\n");
 				int z2;
-				scanf("%d\n", &z2);
+				scanf("%d", &z2);
 				sizefilms = z2;
 			}
 			MyFilms6.FindFilmsFees(MyFilms, sizefilms);
@@ -541,19 +541,19 @@ void main()
 		if (vibor == 7)//Выдать заданное число фильмов с наибольшими сборами в выбранном году
 		{
 			printf("Введите год\n");
-			scanf("%d %d %d\n", &day, &month, &year);
+			scanf("%d %d %d", &day, &month, &year);
 			releasedate.SetData(day, month, year);
 			MyFilmsD.FindData(MyFilms, releasedate);
 			N = MyFilmsD.GetSize();
 			printf("Введите заданное число фильмов\n");
 			int z3;
-			scanf("%d\n", &z3);
+			scanf("%d", &z3);
 			sizefilms = z3;
 			while ((sizefilms < 1) || (sizefilms > N))
 			{
 				printf("В Фильмотеке нет столько фильмов!\n");
 				int z4;
-				scanf("%d\n", &z4);
+				scanf("%d", &z4);
 				sizefilms = z4;
 			}			
 			MyFilms7.FindFilmsFees(MyFilmsD, sizefilms);
