@@ -97,6 +97,7 @@ public:
 		rightBorder = _A.rightBorder;
 		n = _A.n;
 		result = _A.result;
+		return *this;
 	}
 };
 
