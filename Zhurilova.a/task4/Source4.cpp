@@ -43,6 +43,7 @@ public:
 		day = _D.day;
 		return *this;
 	}
+	friend std::ostream& operator<< (std::ostream &out, const Data &D);
 };
 class Film//Класс фильм
 {
@@ -109,6 +110,7 @@ public:
 		releasedate = _F.releasedate;
 		return *this;
 	}
+	friend std::ostream& operator<< (std::ostream &out, const Film &F);
 };
 class FilmLibrary//Класс фильмотека
 {
@@ -132,6 +134,7 @@ public:
 	void DeleteFilm(string _name, Data _releasedate);//Удалить фильм
 	void WriteToFile();//Запись фильмотеки в файл
 	void ReadFromFile();//Чтение из файла
+	void PrintFilmLibrary();
 };
 void Data::SetData(int _d, int _m, int _y)//Установить дату
 {
@@ -155,6 +158,12 @@ void Data::SetData(int _d, int _m, int _y)//Установить дату
 			}
 		}
 	}
+}
+std::ostream& operator<< (std::ostream &out, const Data &D)
+{
+	out << D.day<< "." << D.month << "." << D.year << "г";
+
+	return out;
 }
 FilmLibrary::FilmLibrary()//Конструктор для FilmLibrary
 {
@@ -274,7 +283,7 @@ FilmLibrary FilmLibrary::FindByData(Data _releasedate)//Поиск фильмо�
 	for (int i = 0; i < FilmLib.size(); i++)
 	{
 		Data releasedateD = FilmLib[i].GetData();
-		if (releasedateD == _releasedate)
+		if (releasedateD.GetDataYear() == _releasedate.GetDataYear())
 		{
 			LibraryByData.AppendFilm(FilmLib[i]);
 		}
@@ -288,7 +297,6 @@ FilmLibrary FilmLibrary::FindByFilmsFees(size_t sizefilms)//Поиск зада�
 	Film film1,film2;
 	Film max;
 	int index;
-	double filmfees1,filmfees2;
 	while (j < sizefilms)
 	{
 		for (int i = 0; i < FilmLib.size() - 1; i++)
@@ -309,7 +317,8 @@ FilmLibrary FilmLibrary::FindByFilmsFees(size_t sizefilms)//Поиск зада�
 		string _name = FilmLib[index].GetName();
 		Data _releasedate = FilmLib[index].GetData();
 		DeleteFilm(_name, _releasedate);
-	}	
+	}
+	return Temp;
 }
 void FilmLibrary::DeleteFilm(string _name, Data _releasedate)//Удалить фильм
 {
@@ -320,6 +329,19 @@ void FilmLibrary::DeleteFilm(string _name, Data _releasedate)//Удалить ф
 		FilmLib[j] = FilmLib[j+1];
 	}
 	FilmLib.pop_back();
+}
+std::ostream& operator<< (std::ostream &out, const Film &F)
+{
+	out << F.name << ' ' << F.film_director << F.screenwriter << ' ' << F.composer << ' ' << F.releasedate << ' ' << F.filmfees << "млн. руб" << endl;
+
+	return out;
+}
+void FilmLibrary::PrintFilmLibrary()
+{
+	for (size_t i = 0; i < FilmLib.size(); i++)
+	{
+		cout << FilmLib[i] << endl;
+	}
 }
 void FilmLibrary::WriteToFile()//Запись фильмотеки в файл
 {
@@ -422,7 +444,6 @@ void main()
 		if (vibor == 3)//Найти фильм по названию и году
 		{
 			printf("Введите название фильма\n");
-			printf("Введите название фильма\n");
 			cin >> stringName;
 			cout << endl;
 			printf("Введите год выхода в прокат\n");
@@ -431,17 +452,8 @@ void main()
 			cin >> year;
 			releasedate.SetData(day, month, year);
 			film2 = MyFilms.GetFilm(stringName, releasedate);
-			string name = film2.GetName();
-			string filmdirector = film2.GetFilmDirector();
-			string screenwriter = film2.GetScreenwriter();
-			string composer = film2.GetComposer();
-			Data releasedate = film2.GetData();
-			int year = releasedate.GetDataYear();
-			int month = releasedate.GetDataMonth();
-			int day = releasedate.GetDataDay();
-			double filmfees = film2.GetFilmFees();
 			printf("Ваш фильм\n");
-			cout << name << ' ' << filmdirector << ' ' << screenwriter << ' ' << composer << ' ' << day << '.' << month << '.' << year << ' ' << filmfees;
+			cout << film2 << endl;
 		}
 		if (vibor == 4)//Выдать все фильмы заданного режиссера
 		{
@@ -449,46 +461,19 @@ void main()
 			cin >> stringR;
 			cout << endl;
 			MyFilmsR=MyFilms.FindByDirector(stringR);
-			size_t n = MyFilmsR.GetSize();
-			for (size_t i = 0; i < n; i++)
-			{
-				film2 = MyFilmsR.GetFilm(i);
-				string name = film2.GetName();
-				string filmdirector = film2.GetFilmDirector();
-				string screenwriter = film2.GetScreenwriter();
-				string composer = film2.GetComposer();
-				Data releasedate = film2.GetData();
-				int year = releasedate.GetDataYear();
-				int month = releasedate.GetDataMonth();
-				int day = releasedate.GetDataDay();
-				double filmfees = film2.GetFilmFees();
-				printf("Ваши фильмы\n");
-				cout << name << ' ' << filmdirector << ' ' << screenwriter << ' ' << composer << ' ' << day << '.' << month << '.' << year << ' ' << filmfees;
-			}			
+			printf("Ваши фильмы\n");
+			MyFilmsR.PrintFilmLibrary();						
 		}
 		if (vibor == 5)//Выдать все фильмы, вышедшие в прокат в выбранном году
 		{
 			printf("Введите год\n");
-			scanf("%d %d %d", &day, &month, &year);
+			cin >> day;
+			cin >> month;
+			cin >> year;
 			releasedate.SetData(day, month, year);
-			MyFilmsD.FindData(MyFilms, releasedate);
-			size_t n = MyFilmsD.GetSize();
-			for (size_t i = 0; i < n; i++)
-			{
-				film2 = MyFilmsD.GetFilm(i);
-				string name = film2.GetName();
-				string filmdirector = film2.GetFilmDirector();
-				string screenwriter = film2.GetScreenwriter();
-				string composer = film2.GetComposer();
-				Data releasedate = film2.GetData();
-				int year = releasedate.GetDataYear();
-				int month = releasedate.GetDataMonth();
-				int day = releasedate.GetDataDay();
-				double filmfees = film2.GetFilmFees();
-				printf("Ваши фильмы\n");
-				cout << name << ' ' << filmdirector << ' ' << screenwriter << ' ' << composer << ' ' << day << '.' << month << '.' << year << ' ' << filmfees;
-			}
-
+			MyFilmsD=MyFilms.FindByData(releasedate);
+			printf("Ваши фильмы\n");
+			MyFilmsD.PrintFilmLibrary();
 		}
 		if (vibor == 6)//Выдать заданное число фильмов с наибольшими сборами
 		{
@@ -500,34 +485,21 @@ void main()
 			while ((sizefilms < 1) || (sizefilms > N))
 			{
 				printf("В Фильмотеке нет столько фильмов!\n");
-				int z2;
-				scanf("%d", &z2);
-				sizefilms = z2;
+				scanf("%d", &z1);
+				sizefilms = z1;
 			}
-			MyFilms6.FindFilmsFees(MyFilms, sizefilms);
-			size_t y = MyFilms6.GetSize();
-			for (size_t i = 0; i < y; i++)
-			{
-				film2 = MyFilms6.GetFilm(i);
-				string name = film2.GetName();
-				string filmdirector = film2.GetFilmDirector();
-				string screenwriter = film2.GetScreenwriter();
-				string composer = film2.GetComposer();
-				Data releasedate = film2.GetData();
-				int year = releasedate.GetDataYear();
-				int month = releasedate.GetDataMonth();
-				int day = releasedate.GetDataDay();
-				double filmfees = film2.GetFilmFees();
-				printf("Ваши фильмы\n");
-				cout << name << ' ' << filmdirector << ' ' << screenwriter << ' ' << composer << ' ' << day << '.' << month << '.' << year << ' ' << filmfees;
-			}
+			MyFilms6.FindByFilmsFees(sizefilms);
+			printf("Ваши фильмы\n");
+			MyFilms6.PrintFilmLibrary();
 		}
 		if (vibor == 7)//Выдать заданное число фильмов с наибольшими сборами в выбранном году
 		{
 			printf("Введите год\n");
-			scanf("%d %d %d", &day, &month, &year);
+			cin >> day;
+			cin >> month;
+			cin >> year;
 			releasedate.SetData(day, month, year);
-			MyFilmsD.FindData(MyFilms, releasedate);
+			MyFilmsD.FindByData(releasedate);
 			N = MyFilmsD.GetSize();
 			printf("Введите заданное число фильмов\n");
 			int z3;
@@ -536,11 +508,12 @@ void main()
 			while ((sizefilms < 1) || (sizefilms > N))
 			{
 				printf("В Фильмотеке нет столько фильмов!\n");
-				int z4;
-				scanf("%d", &z4);
-				sizefilms = z4;
+				scanf("%d", &z3);
+				sizefilms = z3;
 			}			
-			MyFilms7.FindFilmsFees(MyFilmsD, sizefilms);
+			MyFilms7.FindByFilmsFees(sizefilms);
+			printf("Ваши фильмы\n");
+			MyFilms7.PrintFilmLibrary();
 		}
 		if (vibor == 8)//Узнать текущее число фильмов
 		{
@@ -552,9 +525,15 @@ void main()
 		{
 			MyFilms.WriteToFile();
 			MyFilms.ReadFromFile();
-			printf("Введите номер строки, начиная с 1(ту, в которой написан фильм, который желаете удалить\n");
-			scanf("%d", &ind);
-			MyFilms.DeleteFilm(ind);
+			printf("Введите название фильма\n");
+			cin >> stringName;
+			cout << endl;
+			printf("Введите год выхода в прокат\n");
+			cin >> day;
+			cin >> month;
+			cin >> year;
+			releasedate.SetData(day, month, year);
+			MyFilms.DeleteFilm(stringName, releasedate);
 			MyFilms.WriteToFile();
 		}
 		if (vibor == 10)//Запись фильмотеки в файл
