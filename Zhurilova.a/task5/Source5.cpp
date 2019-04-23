@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include<locale.h>
 #include <stdio.h>
 #include <string>
@@ -6,19 +6,19 @@
 #include <fstream>
 #include <iostream>
 using namespace std;
-class Client//Класс клиент банкомата
+class Client//РљР»Р°СЃСЃ РєР»РёРµРЅС‚ Р±Р°РЅРєРѕРјР°С‚Р°
 {
 private:
-	string NumberCard;//Номер карты
-	string Surname;//Фамилия
-	string Name;//Имя
-	string Patronymic;//Отчество
-	int InvoiceAmount;//Сумма на счету
-	string PinCode;//Пин-код	
-	bool WorkwithMoney;//Статус пользования карты
-	int MistakePin;//Ошибки ввода пин-кода
+	string NumberCard;//РќРѕРјРµСЂ РєР°СЂС‚С‹
+	string Surname;//Р¤Р°РјРёР»РёСЏ
+	string Name;//РРјСЏ
+	string Patronymic;//РћС‚С‡РµСЃС‚РІРѕ
+	int InvoiceAmount;//РЎСѓРјРјР° РЅР° СЃС‡РµС‚Сѓ
+	string PinCode;//РџРёРЅ-РєРѕРґ	
+	bool WorkwithMoney;//РЎС‚Р°С‚СѓСЃ РїРѕР»СЊР·РѕРІР°РЅРёСЏ РєР°СЂС‚С‹
+	int MistakePin;//РћС€РёР±РєРё РІРІРѕРґР° РїРёРЅ-РєРѕРґР°
 public:
-	Client()//Конструктор без параметров
+	Client()//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ Р±РµР· РїР°СЂР°РјРµС‚СЂРѕРІ
 	{
 		NumberCard = "_";
 		Surname = "_";
@@ -29,7 +29,7 @@ public:
 		WorkwithMoney = true;
 		MistakePin = 0;
 	}
-	Client(string _NumberCard, string _Surname, string _Name, string _Patronymic, string _PinCode, int _InvoiceAmount = 1000)//Конструктор
+	Client(string _NumberCard, string _Surname, string _Name, string _Patronymic, string _PinCode, int _InvoiceAmount = 1000)//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 	{
 		NumberCard = _NumberCard;
 		Surname = _Surname;
@@ -40,38 +40,38 @@ public:
 		WorkwithMoney = true;
 		MistakePin = 0;
 	}
-	void ChangeInvoiceAmount(int _InvoiceAmount)//Изменить сумму на счету
+	void ChangeInvoiceAmount(int _InvoiceAmount)//РР·РјРµРЅРёС‚СЊ СЃСѓРјРјСѓ РЅР° СЃС‡РµС‚Сѓ
 	{
 		InvoiceAmount = _InvoiceAmount;
 
 	}
-	void AddMistakePin()//Ошибка ввода пин-кода +1
+	void AddMistakePin()//РћС€РёР±РєР° РІРІРѕРґР° РїРёРЅ-РєРѕРґР° +1
 	{
 		MistakePin++;
-		if (MistakePin == 3)//Если уже 3 ошибки, блокировка карты
+		if (MistakePin == 3)//Р•СЃР»Рё СѓР¶Рµ 3 РѕС€РёР±РєРё, Р±Р»РѕРєРёСЂРѕРІРєР° РєР°СЂС‚С‹
 			WorkwithMoney = false;
 	}
-	string GetNumberCard()//Вернуть номер карты
+	string GetNumberCard()//Р’РµСЂРЅСѓС‚СЊ РЅРѕРјРµСЂ РєР°СЂС‚С‹
 	{
 		return NumberCard;
 	}
-	string GetPinCode()//Вернуть Пин-код
+	string GetPinCode()//Р’РµСЂРЅСѓС‚СЊ РџРёРЅ-РєРѕРґ
 	{
 		return PinCode;
 	}
-	bool GetStatusWork()//Вернуть Статус работы карты
+	bool GetStatusWork()//Р’РµСЂРЅСѓС‚СЊ РЎС‚Р°С‚СѓСЃ СЂР°Р±РѕС‚С‹ РєР°СЂС‚С‹
 	{
 		return WorkwithMoney;
 	}
-	int GetMistakePin()//Вернуть количество ошибок ввода пин-кода
+	int GetMistakePin()//Р’РµСЂРЅСѓС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕС€РёР±РѕРє РІРІРѕРґР° РїРёРЅ-РєРѕРґР°
 	{
 		return MistakePin;
 	}
-	int GetInvoiceAmount()//Вернуть количество средст на счету
+	int GetInvoiceAmount()//Р’РµСЂРЅСѓС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃСЂРµРґСЃС‚ РЅР° СЃС‡РµС‚Сѓ
 	{
 		return InvoiceAmount;
 	}
-	Client& operator=(const Client &_C)//Оператор присваивания
+	Client& operator=(const Client &_C)//РћРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	{
 		NumberCard = _C.NumberCard;
 		Surname = _C.Surname;
@@ -86,21 +86,21 @@ public:
 };
 std::ostream& operator<< (std::ostream &out, const Client &C)
 {
-	out << "Номер счета: " << C.NumberCard << endl << "ФИO: " << C.Surname << ' ' << C.Name << ' ' << C.Patronymic << endl;
+	out << "РќРѕРјРµСЂ СЃС‡РµС‚Р°: " << C.NumberCard << endl << "Р¤РO: " << C.Surname << ' ' << C.Name << ' ' << C.Patronymic << endl;
 	return out;
 }
-class ProcessingCenter//Класс процессинговый центр
+class ProcessingCenter//РљР»Р°СЃСЃ РїСЂРѕС†РµСЃСЃРёРЅРіРѕРІС‹Р№ С†РµРЅС‚СЂ
 {
 protected:
-	vector <Client> Base;//База клиентов
+	vector <Client> Base;//Р‘Р°Р·Р° РєР»РёРµРЅС‚РѕРІ
 public:
-	ProcessingCenter()//Конструктор
+	ProcessingCenter()//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 	{
 		string n[6] = { "1128","1605","0904","0509","2904","9815" };
 		string pin[6] = { "0000","1111","3370","4319","8679","2420" };
-		string sS[6] = { "Иванов","Васильева","Соколов","Новикова","Федорова","Алексеев" };
-		string sN[6] = { "Анатолий","Агата","Михаил","Варвара","Евгения", "Леонид" };
-		string sP[6] = { "Артёмович","Викторовна","Кириллович","Витальевна","Юрьевна","Дмитриевич" };
+		string sS[6] = { "РРІР°РЅРѕРІ","Р’Р°СЃРёР»СЊРµРІР°","РЎРѕРєРѕР»РѕРІ","РќРѕРІРёРєРѕРІР°","Р¤РµРґРѕСЂРѕРІР°","РђР»РµРєСЃРµРµРІ" };
+		string sN[6] = { "РђРЅР°С‚РѕР»РёР№","РђРіР°С‚Р°","РњРёС…Р°РёР»","Р’Р°СЂРІР°СЂР°","Р•РІРіРµРЅРёСЏ", "Р›РµРѕРЅРёРґ" };
+		string sP[6] = { "РђСЂС‚С‘РјРѕРІРёС‡","Р’РёРєС‚РѕСЂРѕРІРЅР°","РљРёСЂРёР»Р»РѕРІРёС‡","Р’РёС‚Р°Р»СЊРµРІРЅР°","Р®СЂСЊРµРІРЅР°","Р”РјРёС‚СЂРёРµРІРёС‡" };
 		int IA[6] = { 10000, 2569, 4876, 100000, 80548,15000 };
 		Client C0(n[0], sS[0], sN[0], sP[0], pin[0], IA[0]);
 		Client C1(n[1], sS[1], sN[1], sP[1], pin[1], IA[1]);
@@ -115,12 +115,12 @@ public:
 		}		
 	}	
 };
-class BankСash:public ProcessingCenter//Класс Банкомат
+class BankРЎash:public ProcessingCenter//РљР»Р°СЃСЃ Р‘Р°РЅРєРѕРјР°С‚
 {
 private:
-	Client Now;//Клиент, с чьим счетом ведется работа в данный момент
-	int NumberOfBanknotes[6][2];//Кассеты банкомата
-	int SortOfBanknotes(int _NumberOfBanknotes,int _Sum)//"Сортировка" по банкнотам
+	Client Now;//РљР»РёРµРЅС‚, СЃ С‡СЊРёРј СЃС‡РµС‚РѕРј РІРµРґРµС‚СЃСЏ СЂР°Р±РѕС‚Р° РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚
+	int NumberOfBanknotes[6][2];//РљР°СЃСЃРµС‚С‹ Р±Р°РЅРєРѕРјР°С‚Р°
+	int SortOfBanknotes(int _NumberOfBanknotes,int _Sum)//"РЎРѕСЂС‚РёСЂРѕРІРєР°" РїРѕ Р±Р°РЅРєРЅРѕС‚Р°Рј
 	{
 		int Number = 0;
 		if ((_Sum / _NumberOfBanknotes) != 0)
@@ -128,7 +128,7 @@ private:
 		return Number;
 	}
 public:
-	BankСash()//Конструктор
+	BankРЎash()//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 	{
 		NumberOfBanknotes[0][0] = 5000;
 		NumberOfBanknotes[1][0] = 2000;
@@ -139,7 +139,7 @@ public:
 		for (int i = 0; i < 6; i++)
 			NumberOfBanknotes[i][1] = 1600;
 	}
-	Client TakeCards(string _NumberCard)//Принять карту(Найти по номеру счета клиента)
+	Client TakeCards(string _NumberCard)//РџСЂРёРЅСЏС‚СЊ РєР°СЂС‚Сѓ(РќР°Р№С‚Рё РїРѕ РЅРѕРјРµСЂСѓ СЃС‡РµС‚Р° РєР»РёРµРЅС‚Р°)
 	{
 		for (size_t i = 0; i < Base.size(); i++)
 		{
@@ -150,7 +150,7 @@ public:
 		}
 		return Now;
 	}
-	bool ControlPinCode(string _PinCode)//Проверка ввода пин-кода
+	bool ControlPinCode(string _PinCode)//РџСЂРѕРІРµСЂРєР° РІРІРѕРґР° РїРёРЅ-РєРѕРґР°
 	{
 		bool TheEntry = false;
 		if (Now.GetStatusWork() == true)
@@ -164,7 +164,7 @@ public:
 		}
 		return TheEntry;
 	}
-	Client WithdrawCash(int _Sum)//Снять наличные со счёта
+	Client WithdrawCash(int _Sum)//РЎРЅСЏС‚СЊ РЅР°Р»РёС‡РЅС‹Рµ СЃРѕ СЃС‡С‘С‚Р°
 	{
 		int temp=Now.GetInvoiceAmount();
 		int SumOfBanknotes = 0;
@@ -181,7 +181,7 @@ public:
 		}
 		return Now;
 	}
-	Client PutMoneyIntoAccount(int _Sum)//Положить наличные на счет
+	Client PutMoneyIntoAccount(int _Sum)//РџРѕР»РѕР¶РёС‚СЊ РЅР°Р»РёС‡РЅС‹Рµ РЅР° СЃС‡РµС‚
 	{
 		int temp = Now.GetInvoiceAmount();
 		int SumOfBanknotes = 0;
@@ -208,22 +208,22 @@ void main()
 	string PinCode;
 	bool exit=false;
 	bool Enter=true;
-	BankСash ATM;//Банкомат
+	BankРЎash ATM;//Р‘Р°РЅРєРѕРјР°С‚
 	bool TheEntry=false;	
-	cout << "P.S: Номера возможных карт:" << endl << "1128" << " " << "1605" << " " << "0904" << " " << "0509" << " " << "2904" << " " << "9815" << endl;
+	cout << "P.S: РќРѕРјРµСЂР° РІРѕР·РјРѕР¶РЅС‹С… РєР°СЂС‚:" << endl << "1128" << " " << "1605" << " " << "0904" << " " << "0509" << " " << "2904" << " " << "9815" << endl;
 	while (exit == false)
 	{
-		cout << "Найти клиента(1) или Вставить карту(2)" << endl;
+		cout << "РќР°Р№С‚Рё РєР»РёРµРЅС‚Р°(1) РёР»Рё Р’СЃС‚Р°РІРёС‚СЊ РєР°СЂС‚Сѓ(2)" << endl;
 		cin >> choise0;
 		Client C;
 		while (C.GetNumberCard() == "_")
 		{
-			cout << "Вставьте карту(введите номер):";
+			cout << "Р’СЃС‚Р°РІСЊС‚Рµ РєР°СЂС‚Сѓ(РІРІРµРґРёС‚Рµ РЅРѕРјРµСЂ):";
 			cin >> NumberCard;
 			cout << endl;
 			C = ATM.TakeCards(NumberCard);
 			if (C.GetNumberCard() == "_")
-			cout << "Карты с таким номером не существует!" << endl << "Попробуйте ещё раз" << endl;
+			cout << "РљР°СЂС‚С‹ СЃ С‚Р°РєРёРј РЅРѕРјРµСЂРѕРј РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!" << endl << "РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р·" << endl;
 		}		
 		if (choise0 == 1)
 		{
@@ -233,59 +233,59 @@ void main()
 		{
 			if (C.GetNumberCard() != "_")
 			{
-				cout << "Введите пин-код" << endl;
+				cout << "Р’РІРµРґРёС‚Рµ РїРёРЅ-РєРѕРґ" << endl;
 				cin >> PinCode;
 				TheEntry = ATM.ControlPinCode(PinCode);
 				while ((C.GetMistakePin() != 3)&&(TheEntry == false))
 				{
-					cout << "Неверно введен пин-код" << endl;
+					cout << "РќРµРІРµСЂРЅРѕ РІРІРµРґРµРЅ РїРёРЅ-РєРѕРґ" << endl;
 					C.AddMistakePin();
-					cout << "Введите пин-код" << endl;
+					cout << "Р’РІРµРґРёС‚Рµ РїРёРЅ-РєРѕРґ" << endl;
 					cin >> PinCode;
 					TheEntry = ATM.ControlPinCode(PinCode);
 				}
 			}
 			if (C.GetStatusWork() == false)
 			{
-				cout << "Вы ввели пин-код неверно 3 раза! Ваша карта заблокирована" << endl;
+				cout << "Р’С‹ РІРІРµР»Рё РїРёРЅ-РєРѕРґ РЅРµРІРµСЂРЅРѕ 3 СЂР°Р·Р°! Р’Р°С€Р° РєР°СЂС‚Р° Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅР°" << endl;
 			}
 			if (C.GetStatusWork() == true)
 			{				
 				while (Enter==true)
 				{
-					cout << "Желаете: Рапечатать состояние своего счёта(1); Снять наличные(2); Положить наличные(3); Вернуть карту(4)" << endl;
+					cout << "Р–РµР»Р°РµС‚Рµ: Р Р°РїРµС‡Р°С‚Р°С‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ СЃРІРѕРµРіРѕ СЃС‡С‘С‚Р°(1); РЎРЅСЏС‚СЊ РЅР°Р»РёС‡РЅС‹Рµ(2); РџРѕР»РѕР¶РёС‚СЊ РЅР°Р»РёС‡РЅС‹Рµ(3); Р’РµСЂРЅСѓС‚СЊ РєР°СЂС‚Сѓ(4)" << endl;
 					cin >> choise1;
 					if (choise1 == 1)
-						cout << C << "Сумма на счету: " << C.GetInvoiceAmount() << ' ' << endl;
+						cout << C << "РЎСѓРјРјР° РЅР° СЃС‡РµС‚Сѓ: " << C.GetInvoiceAmount() << ' ' << endl;
 					if (choise1 == 2)
 					{
-						cout << "Введите сумму, которую хотите списать:" << endl;
+						cout << "Р’РІРµРґРёС‚Рµ СЃСѓРјРјСѓ, РєРѕС‚РѕСЂСѓСЋ С…РѕС‚РёС‚Рµ СЃРїРёСЃР°С‚СЊ:" << endl;
 						cin >> Sum;
 						while ((Sum < 0) || (Sum > C.GetInvoiceAmount()))
 						{
-							cout << "Вводимой суммы нет на счету!" << "Попробуйте ещё раз" << endl;
+							cout << "Р’РІРѕРґРёРјРѕР№ СЃСѓРјРјС‹ РЅРµС‚ РЅР° СЃС‡РµС‚Сѓ!" << "РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р·" << endl;
 							cin >> Sum;
 						}
 						while (((Sum > 200000) && ((Sum / 100) == 0)) || ((Sum % 100) != 0))
 						{
-							cout << "К сожалению, такая сумма не может быть выдана банкоматом" << endl;
-							cout << "Попробуйте ещё раз" << endl;
+							cout << "Рљ СЃРѕР¶Р°Р»РµРЅРёСЋ, С‚Р°РєР°СЏ СЃСѓРјРјР° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РІС‹РґР°РЅР° Р±Р°РЅРєРѕРјР°С‚РѕРј" << endl;
+							cout << "РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р·" << endl;
 							cin >> Sum;
 						}
 						C = ATM.WithdrawCash(Sum);
-						cout << "Средства сняты с вашего счёта" << endl << "Текущий баланс: " << C.GetInvoiceAmount() << endl;
+						cout << "РЎСЂРµРґСЃС‚РІР° СЃРЅСЏС‚С‹ СЃ РІР°С€РµРіРѕ СЃС‡С‘С‚Р°" << endl << "РўРµРєСѓС‰РёР№ Р±Р°Р»Р°РЅСЃ: " << C.GetInvoiceAmount() << endl;
 					}
 					if (choise1 == 3)
 					{
-						cout << "Введите сумму, которую хотите положить на счет:" << endl;
+						cout << "Р’РІРµРґРёС‚Рµ СЃСѓРјРјСѓ, РєРѕС‚РѕСЂСѓСЋ С…РѕС‚РёС‚Рµ РїРѕР»РѕР¶РёС‚СЊ РЅР° СЃС‡РµС‚:" << endl;
 						cin >> Sum;
 						while ((Sum < 0) || ((Sum > 200000) && ((Sum / 100) == 0)) || ((Sum % 100) != 0))
 						{
-							cout << "Вводимую сумму нельзя зачислить на счет!" << "Попробуйте ещё раз" << endl;
+							cout << "Р’РІРѕРґРёРјСѓСЋ СЃСѓРјРјСѓ РЅРµР»СЊР·СЏ Р·Р°С‡РёСЃР»РёС‚СЊ РЅР° СЃС‡РµС‚!" << "РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р·" << endl;
 							cin >> Sum;
 						}
 						C = ATM.PutMoneyIntoAccount(Sum);
-						cout << "Средства зачислены на ваш счёт" << endl << "Текущий баланс: " << C.GetInvoiceAmount() << endl;
+						cout << "РЎСЂРµРґСЃС‚РІР° Р·Р°С‡РёСЃР»РµРЅС‹ РЅР° РІР°С€ СЃС‡С‘С‚" << endl << "РўРµРєСѓС‰РёР№ Р±Р°Р»Р°РЅСЃ: " << C.GetInvoiceAmount() << endl;
 					}
 					if (choise1 == 4)
 					{
@@ -294,7 +294,7 @@ void main()
 				}				
 			}
 		}
-		cout << "Желаете выйти(1) или нет(0)" << endl;
+		cout << "Р–РµР»Р°РµС‚Рµ РІС‹Р№С‚Рё(1) РёР»Рё РЅРµС‚(0)" << endl;
 		cin >> exit;
 	}
 }
