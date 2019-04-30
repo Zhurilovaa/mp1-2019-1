@@ -43,7 +43,6 @@ public:
 	void ChangeInvoiceAmount(int _InvoiceAmount)//Изменить сумму на счету
 	{
 		InvoiceAmount = _InvoiceAmount;
-
 	}
 	void AddMistakePin()//Ошибка ввода пин-кода +1
 	{
@@ -67,7 +66,7 @@ public:
 	{
 		return MistakePin;
 	}
-	int GetInvoiceAmount()//Вернуть количество средст на счету
+	int GetInvoiceAmount()//Вернуть количество средств на счету
 	{
 		return InvoiceAmount;
 	}
@@ -97,7 +96,7 @@ public:
 	ProcessingCenter()//Конструктор
 	{
 		string n[6] = { "1128","1605","0904","0509","2904","9815" };
-		string pin[6] = { "0000","1111","3370","4319","8679","2420" };
+		string pin[6] = { "9876","3254","3370","4319","8679","2420" };
 		string sS[6] = { "Иванов","Васильева","Соколов","Новикова","Федорова","Алексеев" };
 		string sN[6] = { "Анатолий","Агата","Михаил","Варвара","Евгения", "Леонид" };
 		string sP[6] = { "Артёмович","Викторовна","Кириллович","Витальевна","Юрьевна","Дмитриевич" };
@@ -236,13 +235,16 @@ void main()
 				cout << "Введите пин-код" << endl;
 				cin >> PinCode;
 				TheEntry = ATM.ControlPinCode(PinCode);
-				while ((C.GetMistakePin() != 3)&&(TheEntry == false))
+				while((TheEntry == false)&&(C.GetStatusWork() == true))
 				{
 					cout << "Неверно введен пин-код" << endl;
 					C.AddMistakePin();
-					cout << "Введите пин-код" << endl;
-					cin >> PinCode;
-					TheEntry = ATM.ControlPinCode(PinCode);
+					if(C.GetMistakePin()!=3)
+					{
+						cout << "Введите пин-код" << endl;
+						cin >> PinCode;
+						TheEntry = ATM.ControlPinCode(PinCode);
+					}					
 				}
 			}
 			if (C.GetStatusWork() == false)
@@ -253,8 +255,13 @@ void main()
 			{				
 				while (Enter==true)
 				{
-					cout << "Желаете: Рапечатать состояние своего счёта(1); Снять наличные(2); Положить наличные(3); Вернуть карту(4)" << endl;
+					cout << "Желаете: Рапечатать состояние своего счёта(1);"<< endl << "Снять наличные(2);"<< endl << "Положить наличные(3);"<< endl << "Вернуть карту(4)" << endl;
 					cin >> choise1;
+					while ((choise1 < 1) || (choise1 > 4))
+					{
+						cout << "Нет операции под таким номером! Попробуйте ещё раз." << endl;
+						cin >> choise1;
+					}
 					if (choise1 == 1)
 						cout << C << "Сумма на счету: " << C.GetInvoiceAmount() << ' ' << endl;
 					if (choise1 == 2)
@@ -266,7 +273,7 @@ void main()
 							cout << "Вводимой суммы нет на счету!" << "Попробуйте ещё раз" << endl;
 							cin >> Sum;
 						}
-						while (((Sum > 200000) && ((Sum / 100) == 0)) || ((Sum % 100) != 0))
+						while (((Sum > 200000) && ((Sum % 100) == 0)) || ((Sum % 100) != 0))
 						{
 							cout << "К сожалению, такая сумма не может быть выдана банкоматом" << endl;
 							cout << "Попробуйте ещё раз" << endl;
@@ -279,7 +286,7 @@ void main()
 					{
 						cout << "Введите сумму, которую хотите положить на счет:" << endl;
 						cin >> Sum;
-						while ((Sum < 0) || ((Sum > 200000) && ((Sum / 100) == 0)) || ((Sum % 100) != 0))
+						while ((Sum < 0) || ((Sum > 200000) && ((Sum % 100) == 0)) || ((Sum % 100) != 0))
 						{
 							cout << "Вводимую сумму нельзя зачислить на счет!" << "Попробуйте ещё раз" << endl;
 							cin >> Sum;
