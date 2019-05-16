@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<locale.h>
 #include <stdio.h>
+#include <Windows.h>
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -25,7 +26,7 @@ public:
 };
 std::ostream& operator<< (std::ostream &out, const Coordinate &C)
 {
-	out << C.x << C.y << endl;
+	out << "(" <<C.x <<","<< C.y <<")";
 	return out;
 }
 class SingleDeckShip//Однопалубный корабль
@@ -148,24 +149,43 @@ public:
 	}
 	Coordinate GetCoordinateBegin()
 	{
-		return cshipEnd;
+		return cshipBegin;
 	}
 	Coordinate GetCoordinateEnd()
 	{
-		return cshipBegin;
+		return cshipEnd;
 	}
 	bool GetStatusOfShip()
 	{
 		return StatusOfShip;
 	}
 };
+void DrawCoordinateGame(int  CoordinateGame[10][10])
+{
+	cout << "#  " << "0 " << "1 " << "2 " << "3 " << "4 " << "5 " << "6 " << "7 " << "8 " << "9 " << endl;
+	for (int z = 0; z < 24; z++)
+	{
+		cout << "_";
+	}
+	cout << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		cout << i<<" " << "|";
+		for (int j = 0; j < 10; j++)
+		{
+			cout << CoordinateGame[i][j]<<" ";
+		}	
+		cout << endl;
+	}
+}
 void main()
 {
 	setlocale(LC_ALL, "Rus");
-	bool vvod3 = true;
+	bool vvod3;
 	cout << "Добро пожаловать в игру Морской бой" << endl;
 	cout << "Для начала необходимо расставить ваши корабли" << endl;
 	int CoordinateGame[10][10] = { 0 };
+	DrawCoordinateGame(CoordinateGame);
 	cout << "Введите поочерёдно координаты начала(x,y) и координаты конца четырёхпалубного корабля" << endl;
 	int x4B=0;
 	int y4B=0;
@@ -203,32 +223,76 @@ void main()
 	Coordinate end(x4E, y4E);
 	FourDeckShip Myship4;
 	Myship4.SetCoordinate(begin, end);
-	cout << Myship4.GetCoordinateBegin() << " " << Myship4.GetCoordinateEnd << endl;
+	begin = Myship4.GetCoordinateBegin();
+	end = Myship4.GetCoordinateEnd();
+	cout << begin << end << endl;
+	cout << "Отлично один есть! Идём дальше." << endl;
 	cout << "Введите поочерёдно координаты начала(x,y) и координаты конца трёхпалубного корабля, сначала первого потом второго" << endl;
 	cout << "Внимание! Корабли не должны стоять в соседних клетках" << endl;
-	int x3B = 0;
-	int y3B = 0;
-	int x3E = 0;
-	int y3E = 0;
-	while (vvod3 == true)
+	for (int i = 1; i < 3; i++)
 	{
-		cin >> x3B >> y3B >> x3E >> y3E;
-		cout << endl;
-		while (((x3B != x3E) && (y3B != y3E)) || ((abs(x3B - x3E) != 2) && (y3B == y3E)) || (abs(y3B - y3E) != 3) && (x3B == x3E))
+		if (i == 1)
 		{
-			cout << "Координаты введены неверно! Попробуйте ещё раз" << endl;
+			cout << "Сначала первый" << endl;
+		}
+		if (i == 2)
+		{
+			cout << "Теперь второй" << endl;
+		}		
+		int x3B = 0;
+		int y3B = 0;
+		int x3E = 0;
+		int y3E = 0;
+		vvod3 = true;
+		while (vvod3 == true)
+		{
 			cin >> x3B >> y3B >> x3E >> y3E;
 			cout << endl;
+			while (((x3B != x3E) && (y3B != y3E)) || ((abs(x3B - x3E) != 2) && (y3B == y3E)) || (abs(y3B - y3E) != 2) && (x3B == x3E))
+			{
+				cout << "Координаты введены неверно! Попробуйте ещё раз" << endl;
+				cin >> x3B >> y3B >> x3E >> y3E;
+				cout << endl;
+			}
+			while (((x3B < 0) || (x3B > 9)) || ((x3E < 0) || (x3E > 9)) || ((y3B < 0) || (y3B > 9)) || ((y3E < 0) || (y3E > 9)))
+			{
+				cout << "Координаты выходят за диапозон значений! Попробуйте ещё раз" << endl;
+				cin >> x3B >> y3B >> x3E >> y3E;
+				cout << endl;
+			}
+			if (x3B == x3E)
+			{
+				CoordinateGame[x3B][y3B] = 1;
+				CoordinateGame[x3B][y3B + 1] = 1;
+				CoordinateGame[x3E][y3E] = 1;
+				if ((CoordinateGame[x3B - 1][y3B + 1] == 1) || (CoordinateGame[x3B - 1][y3B + 1] == 1))
+				{
+					cout << "Корабли в соседнихх клетках! Караул! Попробуйте ещё раз." << endl;
+				}
+				else
+				{
+					vvod3 = false;
+				}
+			}
+			if (y3B == y3E)
+			{
+				CoordinateGame[x3B][y3B] = 1;
+				CoordinateGame[x3B + 1][y3B] = 1;
+				CoordinateGame[x3E][y3E] = 1;
+				if ((CoordinateGame[x3B + 1][y3B - 1] == 1) || (CoordinateGame[x3B + 1][y3B + 1] == 1))
+				{
+					cout << "Корабли в соседнихх клетках! Караул! Попробуйте ещё раз." << endl;
+				}
+				else
+				{
+					vvod3 = false;
+				}
+			}
 		}
-		while (((x3B < 0) || (x3B > 9)) || ((x3E < 0) || (x3E > 9)) || ((y3B < 0) || (y3B > 9)) || ((y3E < 0) || (y3E > 9)))
-		{
-			cout << "Координаты выходят за диапозон значений! Попробуйте ещё раз" << endl;
-			cin >> x3B >> y3B >> x3E >> y3E;
-			cout << endl;
-		}
-		
 	}
+	
+		
+}
 	
 
 
-}
