@@ -111,7 +111,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source5.cpp" />
+    <ClCompile Include="Bankomat.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ProcessingCenter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bankomat.hpp" />
+    <ClInclude Include="Client.hpp" />
+    <ClInclude Include="ProcessingCenter.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
