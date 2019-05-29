@@ -321,11 +321,11 @@ void Game::CompareMapPlayer()
 			{
 				MapPlayerForConsole[i][j] = 8;
 			}
-			if ((MapLivePlayer[i][j] > 7) && (MapLivePlayer[i][j] < 12))
+			if ((MapLivePlayer[i][j] >=8) && (MapLivePlayer[i][j] <=11))
 			{
 				MapPlayerForConsole[i][j] = -1;
 			}
-			if ((MapLivePlayer[i][j] > 15) && (MapLivePlayer[i][j] < 19))
+			if ((MapLivePlayer[i][j] >= 15) && (MapLivePlayer[i][j] <= 18))
 			{
 				MapPlayerForConsole[i][j] = -2;
 			}
@@ -339,11 +339,11 @@ void Game::CompareMapPlayer()
 			{
 				MapComputerForConsole[i][j] = 8;
 			}
-			if ((MapComputerPlayer[i][j] > 7) && (MapComputerPlayer[i][j] < 12))
+			if ((MapComputerPlayer[i][j] >=8) && (MapComputerPlayer[i][j] <=11))
 			{
 				MapComputerForConsole[i][j] = -1;
 			}
-			if ((MapComputerPlayer[i][j] > 15) && (MapComputerPlayer[i][j] < 19))
+			if ((MapComputerPlayer[i][j] >=15) && (MapComputerPlayer[i][j]<=18))
 			{
 				MapComputerForConsole[i][j] = -2;
 			}
@@ -460,6 +460,7 @@ int Game::TestEndGame()
 	{
 		return 2;
 	}
+	return 0;
 }
 void Game::SetOkrPodbit(int x, int y, int WhatMap)
 {
@@ -578,19 +579,19 @@ void Game::TestUbit(int x, int y, int WhatMap)
 		if (MapLivePlayer[x][y] == 8)
 		{
 			MapLivePlayer[x][y] = MapLivePlayer[x][y] + 7;
-			SetOkrShipPodbit(x, y, 1);
+			SetOkrShipPodbit(x, y, 2);
 		}
 		else if (MapLivePlayer[x][y] == 9)
 		{
-			AnalizUbit(x, y, 2, 1);
+			AnalizUbit(x, y, 2, 2);
 		}
 		else if (MapLivePlayer[x][y] == 10)
 		{
-			AnalizUbit(x, y, 3, 1);
+			AnalizUbit(x, y, 3, 2);
 		}
 		else if (MapLivePlayer[x][y] == 11)
 		{
-			AnalizUbit(x, y, 4, 1);
+			AnalizUbit(x, y, 4, 2);
 		}
 	}
 }
